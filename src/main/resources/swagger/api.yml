@@ -219,6 +219,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RolesEnum'
+        langKey:
+          type: string
 
     ProductModifyPayload:
       type: object

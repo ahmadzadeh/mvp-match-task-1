@@ -10,6 +10,7 @@ import co.mvpmatch.backendtask1.web.api.model.UserDTO
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class UserService(
@@ -33,7 +34,11 @@ class UserService(
     @Throws(ResourceAlreadyExistsException::class)
     fun register(registrationDTO: RegistrationDTO) {
         preventDuplicatedUserName(registrationDTO.username)
-
+        val entity = userMapper.toEntity(registrationDTO)
+        entity.passwordHash = passwordEncoder.encode(registrationDTO.password)
+        entity.jwtSalt = UUID.randomUUID().toString()
+        entity.activated = true
+        userRepository.save(entity)
     }
 
     @Throws(ResourceAlreadyExistsException::class, ResourceNotFoundException::class)
