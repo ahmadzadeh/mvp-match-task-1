@@ -6,6 +6,6 @@
     <property name="autoIncrement" value="true"/>
 
     <include file="add-users-and-auth.xml" relativeToChangelogFile="true"/>
-    <include file="init-users-and-auth.xml" relativeToChangelogFile="true"/>
+    <include file="init-auth.xml" relativeToChangelogFile="true"/>
     <include file="products.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -1,10 +1,10 @@
 spring:
   liquibase:
-    contexts: dev
+    contexts: test
   datasource:
     driver-class-name: org.h2.Driver
     username: admin
-    url: jdbc:h2:mem:backend-task1
+    url: jdbc:h2:mem:backend-task1-test
     password: admin
   h2:
     console:

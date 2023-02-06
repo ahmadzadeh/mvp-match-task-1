@@ -5,20 +5,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
     <property name="autoIncrement" value="true"/>
 
-    <changeSet author="Javad Ahmadzadeh" id="init-users">
-
-        <insert tableName="users">
-            <column name="id" value="1"/>
-            <column name="username" value="admin"/>
-            <column name="activated" valueBoolean="true"/>
-            <column name="password_hash" value="$2a$10$UJPCc13xBvo8WqSLTx8/VOiQLt428mao.mSMJFFpvPXVpuKMx4glK"/>
-            <column name="jwt_salt" value="3+]SN!d^6tIe2Z}"/>
-            <column name="full_name" value="Admin"/>
-            <column name="lang_key" value="en"/>
-        </insert>
-    </changeSet>
-
-    <changeSet author="Javad Ahmadzadeh" id="init-auth">
+    <changeSet author="Javad Ahmadzadeh" id="init-auth" context="dev,prod">
         <insert tableName="authorities">
             <column name="name" value="ROLE_ADMIN"/>
         </insert>
@@ -30,10 +17,4 @@
         </insert>
     </changeSet>
 
-    <changeSet author="Javad Ahmadzadeh" id="init-users-auth">
-        <insert tableName="users_authorities">
-            <column name="authority_name" value="ROLE_ADMIN"/>
-            <column name="user_id" value="1"/>
-        </insert>
-    </changeSet>
 </databaseChangeLog>

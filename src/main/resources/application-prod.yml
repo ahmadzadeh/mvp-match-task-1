@@ -1,4 +1,6 @@
-sping:
+spring:
+  liquibase:
+    contexts: prod
   jpa:
     properties:
       hibernate:

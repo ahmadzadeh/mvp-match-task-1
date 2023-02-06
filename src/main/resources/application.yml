@@ -5,6 +5,8 @@ spring:
     change-log: db/changelog/changelog-master.xml
   main:
     allow-bean-definition-overriding: true
+  jpa:
+    generate-ddl: false
 application:
   security:
     secret: ${jwt.secret:Nnc5eiRDJkYpSEBNY1FmVGpXblpyNHU3eCFBJUQqRy1LYU5kUmdVa1hwMnM1djh5L0I/RShIK01iUWVTaFZtWQ==}
