@@ -143,8 +143,45 @@ paths:
         204:
           description: Product deleted successfully.
 
+  /reset:
+    get:
+      operationId: resetDeposits
+      description: Set current user's deposit to zero (only for buyers)
+      security:
+        - jwt: [ ]
+      responses:
+        200:
+          description: Deposits of user has been reset.
 
+  /deposit:
+    post:
+      operationId: deposit
+      description: Deposit coin to buyer's account (only accepts multiples of 5 cent)
+      security:
+        - jwt: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepositPayload'
+      responses:
+        200:
+          description: Account credited successfully.
 
+  /buy:
+    post:
+      operationId: buy
+      description: Buy specific product, if user has enough credit
+      security:
+        - jwt: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuyPayload'
+      responses:
+        200:
+          $ref: '#/components/responses/BuyResponse'
 
 components:
   responses:
@@ -161,6 +198,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/LoginResponseDTO'
+
+    BuyResponse:
+      description:  Total spent money, product details, and coin changes.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BuyResponseDTO'
 
     GetAllUsersResponse:
       description: List of all users (accessible to admin only)
@@ -245,6 +289,30 @@ components:
           format: int64
       allOf:
         - $ref: '#/components/schemas/ProductModifyPayload'
+
+    DepositPayload:
+      type: object
+      properties:
+        amountsInCent:
+          type: integer
+
+    BuyPayload:
+      type: object
+      properties:
+        productId:
+          type: integer
+        productAmount:
+          type: integer
+
+    BuyResponseDTO:
+      type: object
+      properties:
+        productId:
+          type: integer
+        changeCoins:
+          type: array
+          items:
+            type: integer
 
 
   securitySchemes:

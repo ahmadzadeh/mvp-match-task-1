@@ -33,6 +33,7 @@ class UserService(
     @Transactional
     @Throws(ResourceAlreadyExistsException::class)
     fun register(registrationDTO: RegistrationDTO) {
+        //TODO: Add more security when new user role is admin
         preventDuplicatedUserName(registrationDTO.username)
         val entity = userMapper.toEntity(registrationDTO)
         entity.passwordHash = passwordEncoder.encode(registrationDTO.password)
