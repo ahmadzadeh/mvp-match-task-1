@@ -36,11 +36,23 @@ class AuthenticationHelper {
         return getAccessToken(userHelper.getTestAdminUser())
     }
 
-    fun getMockBuyerToken(): String {
-        return getAccessToken(userHelper.getTestBuyer())
+    fun getMockBuyer1Token(): String {
+        return getAccessToken(userHelper.getTestBuyer1())
     }
 
-    fun getMockSellerToken(): String {
-        return getAccessToken(userHelper.getTestSeller())
+    fun getMockSeller1Token(): String {
+        return getAccessToken(userHelper.getTestSeller1())
+    }
+
+    fun getMockBuyer2Token(): String {
+        return getAccessToken(userHelper.getTestBuyer2())
+    }
+
+    fun getMockSeller2Token(): String {
+        return getAccessToken(userHelper.getTestSeller2())
+    }
+
+    fun clearUsers() {
+        userHelper.clearUsers()
     }
 }

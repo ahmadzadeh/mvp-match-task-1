@@ -35,14 +35,26 @@ class UserHelper {
             .orElse(insertTestUser(username, setOf(Authority(ROLE_ADMIN))))
     }
 
-    fun getTestBuyer(): User {
-        val username = "buyer_$TEST_USER_NAME"
+    fun getTestBuyer1(): User {
+        val username = "buyer1_$TEST_USER_NAME"
         return userRepository.findOneByUsernameIgnoreCase(username)
             .orElse(insertTestUser(username, setOf(Authority(ROLE_BUYER))))
     }
 
-    fun getTestSeller(): User {
-        val username = "seller_$TEST_USER_NAME"
+    fun getTestBuyer2(): User {
+        val username = "buyer2_$TEST_USER_NAME"
+        return userRepository.findOneByUsernameIgnoreCase(username)
+            .orElse(insertTestUser(username, setOf(Authority(ROLE_BUYER))))
+    }
+
+    fun getTestSeller1(): User {
+        val username = "seller1_$TEST_USER_NAME"
+        return userRepository.findOneByUsernameIgnoreCase(username)
+            .orElse(insertTestUser(username, setOf(Authority(ROLE_SELLER))))
+    }
+
+    fun getTestSeller2(): User {
+        val username = "seller2_$TEST_USER_NAME"
         return userRepository.findOneByUsernameIgnoreCase(username)
             .orElse(insertTestUser(username, setOf(Authority(ROLE_SELLER))))
     }
@@ -60,5 +72,10 @@ class UserHelper {
                 langKey = TEST_LANG_KEY
             )
         )
+    }
+
+    @Transactional
+    fun clearUsers() {
+        userRepository.deleteAll()
     }
 }

@@ -66,3 +66,16 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+
+task integrationTest(type: Test) {
+	useJUnitPlatform()
+	description = "Execute integration tests."
+	group = "verification"
+	include "**/*IT*", "**/*IntTest*"
+
+	testLogging {
+		events "FAILED", "SKIPPED"
+	}
+}
+
+
