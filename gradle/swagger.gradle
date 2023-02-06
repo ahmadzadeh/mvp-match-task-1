@@ -1,0 +1,39 @@
+/*
+ * Plugin that provides API-first development using OpenAPI-generator to
+ * generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file
+ */
+apply plugin: "org.openapi.generator"
+
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath "org.openapitools:openapi-generator-gradle-plugin:${openapi_plugin_version}"
+    }
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$rootDir/src/main/resources/swagger/api.yml".toString()
+    outputDir = "$buildDir/openapi".toString()
+    apiPackage = "co.mvpmatch.backendtask1.web.api"
+    modelPackage = "co.mvpmatch.backendtask1.web.api.model"
+    apiFilesConstrainedTo = [""]
+    modelFilesConstrainedTo = [""]
+    supportingFilesConstrainedTo = ["ApiUtil.java"]
+    configOptions = [delegatePattern: "true", title: "MVP-Backend-Task1", generateSupportingFiles: "false", interfaceOnly: "true", "skipDefaultInterface": "true"]
+    validateSpec = true
+    importMappings = [Problem: "org.zalando.problem.Problem"]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir file("${project.buildDir.path}/openapi/src/main/java")
+        }
+    }
+}

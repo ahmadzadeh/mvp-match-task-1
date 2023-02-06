@@ -1,0 +1,23 @@
+import java.time.Instant
+
+jib {
+    container {
+        creationTime = Instant.now().toString()
+    }
+    from {
+        image = "eclipse-temurin:17.0.5_8-jre"
+    }
+    to {
+        image = "mvp-match-task1"
+    }
+    container {
+        ports = ["8080"]
+    }
+}
+
+dockerCompose {
+    useComposeFiles = ['docker/docker-compose.yml']
+}
+
+composeUp.dependsOn jibDockerBuild
+composeBuild.dependsOn jibDockerBuild

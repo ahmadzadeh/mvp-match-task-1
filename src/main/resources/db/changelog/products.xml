@@ -1,0 +1,33 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <property name="autoIncrement" value="true"/>
+
+    <changeSet author="Javad Ahmadzadeh" id="add-products">
+        <createTable tableName="products">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_name" type="varchar(50)">
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_product_name"/>
+            </column>
+            <column name="seller_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cost" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount_available" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="seller_id"
+                                 baseTableName="products"
+                                 constraintName="fk_product_seller_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mariadb:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "127.0.0.1:3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-proot" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - default-net
+
+  mvp-match-task1:
+    depends_on:
+      mysql:
+        condition: service_healthy
+    image: mvp-match-task1:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mvp_match_task1?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      - default-net
+networks:
+  default-net:

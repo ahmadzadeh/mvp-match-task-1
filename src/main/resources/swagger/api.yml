@@ -1,0 +1,261 @@
+# API-first development with OpenAPI
+openapi: '3.0.1'
+info:
+  title: 'mvp-match-task1'
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/api
+    description: Development server
+paths:
+  /login:
+    post:
+      operationId: login
+      security:
+        - basicAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/LoginResponse'
+  /user:
+    get:
+      operationId: getAllUsersByAdmin
+      security:
+        - jwt: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/GetAllUsersResponse'
+    post:
+      operationId: registration
+      tags:
+        - account
+      security: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationDTO'
+      responses:
+        201:
+          description: User created successfully.
+
+  /user/{username}:
+    put:
+      operationId: updateUserByAdmin
+      security:
+        - jwt: [ ]
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationDTO'
+      responses:
+        200:
+          description: User updated successfully
+
+    delete:
+      operationId: deleteUserByAdmin
+      security:
+        - jwt: [ ]
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: User removed successfully
+  /product:
+    get:
+      operationId: getAllProducts
+      security:
+        - jwt: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/AllProductsResponse'
+
+    post:
+      operationId: addProduct
+      security:
+        - jwt: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductModifyPayload'
+      responses:
+        201:
+          description: Product added successfully.
+
+  /product/{productName}:
+    get:
+      operationId: getProductByName
+      security:
+        - jwt: [ ]
+      parameters:
+        - in: path
+          required: true
+          name: productName
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/SingleProductsResponse'
+    put:
+      operationId: updateProduct
+      security:
+        - jwt: [ ]
+      parameters:
+        - in: path
+          required: true
+          name: productName
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductModifyPayload'
+      responses:
+        200:
+          description: Product updated successfully.
+
+    delete:
+      operationId: deleteProduct
+      security:
+        - jwt: [ ]
+      parameters:
+        - in: path
+          required: true
+          name: productName
+          schema:
+            type: string
+      responses:
+        204:
+          description: Product deleted successfully.
+
+
+
+
+components:
+  responses:
+    Problem:
+      description: error occurred - see status code and problem object for more information.
+      content:
+        'application/problem+json':
+          schema:
+            $ref: 'https://opensource.zalando.com/problem/schema.yaml#/Problem'
+
+    LoginResponse:
+      description: Successful Login
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoginResponseDTO'
+
+    GetAllUsersResponse:
+      description: List of all users (accessible to admin only)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserDTO'
+
+    SingleProductsResponse:
+      description: List of all products (paged)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductDTO'
+
+    AllProductsResponse:
+      description: List of all products (paged)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProductDTO'
+  schemas:
+    LoginResponseDTO:
+      type: object
+      properties:
+        token:
+          type: string
+        expiresIn:
+          type: integer
+          format: int64
+
+    RolesEnum:
+      type: string
+      enum: [ role_admin,role_buyer,role_seller ]
+
+    RegistrationDTO:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/UserDTO'
+      properties:
+        password:
+          type: string
+
+    UserDTO:
+      type: object
+      properties:
+        fullName:
+          type: string
+        username:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RolesEnum'
+
+    ProductModifyPayload:
+      type: object
+      required: [ productName,amountAvailable,cost ]
+      properties:
+        productName:
+          type: string
+          minLength: 3
+          maxLength: 50
+        amountAvailable:
+          type: integer
+          minimum: 0
+        cost:
+          type: integer
+          minimum: 0
+
+    ProductDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      allOf:
+        - $ref: '#/components/schemas/ProductModifyPayload'
+
+
+  securitySchemes:
+    jwt:
+      type: http
+      description: JWT Authentication
+      scheme: bearer
+      bearerFormat: JWT
+
+    basicAuth:
+      type: http
+      description: Basic Authentication
+      scheme: basic
+security:
+  - jwt: [ ]
+  - basic: [ ]

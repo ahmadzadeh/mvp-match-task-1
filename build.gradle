@@ -1,0 +1,68 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version "${spring_boot_version}"
+	id 'io.spring.dependency-management' version "${spring_dep_manager_version}"
+	//id 'org.jetbrains.kotlin.plugin.allopen' version "${all_open_plugin_version}"
+	//id 'org.jetbrains.kotlin.plugin.noarg' version "${no_arg_plugin_version}"
+	id 'org.openapi.generator' version "${openapi_plugin_version}"
+	id 'org.jetbrains.kotlin.jvm' version "${kotlin_version}"
+	id 'org.jetbrains.kotlin.plugin.spring' version "${kotlin_version}"
+	id 'org.jetbrains.kotlin.plugin.jpa' version "${kotlin_version}"
+	id 'com.google.cloud.tools.jib' version "${jib_plugin_version}"
+	id 'com.avast.gradle.docker-compose' version "${docker_compose_version}"
+}
+
+apply from: 'gradle/kotlin.gradle'
+apply from: 'gradle/swagger.gradle'
+apply from: 'gradle/docker.gradle'
+
+group = 'co.mvpmatch'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+	implementation 'org.jetbrains.kotlin:kotlin-reflect'
+	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+	implementation "io.swagger.core.v3:swagger-core:${swagger_version}"
+	implementation "org.openapitools:jackson-databind-nullable:${swagger_jackson_version}"
+	implementation "io.swagger.core.v3:swagger-annotations:${swagger_version}"
+	implementation 'org.liquibase:liquibase-core'
+	implementation "com.zaxxer:HikariCP:${hikari_version}"
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core'
+	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-reactor'
+	implementation "org.mapstruct:mapstruct:${mapstruct_version}"
+	implementation "io.jsonwebtoken:jjwt-api:${jwt_lib_version}"
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jwt_lib_version}"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jwt_lib_version}"
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+
+tasks.withType(KotlinCompile) {
+	kotlinOptions {
+		freeCompilerArgs = ['-Xjsr305=strict']
+		jvmTarget = '17'
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
