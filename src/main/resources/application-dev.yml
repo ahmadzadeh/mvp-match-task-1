@@ -1,4 +1,6 @@
 spring:
+  cache:
+    type: simple
   liquibase:
     contexts: dev
   datasource:

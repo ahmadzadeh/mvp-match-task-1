@@ -1,0 +1,35 @@
+name: Checks
+on:
+  #triggers on push or pull request events for main/develop branch
+  pull_requests:
+    branches: [ main,develop ]
+
+  #Possibility to run this action manually
+  workflow_dispatch:
+
+jobs:
+  checks:
+    name: Run (Unit & Integration) Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+
+      - name: Setup JDK 17
+        uses: action/setup-java@2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Run Tests
+        run: ./gradlew check
