@@ -1,7 +1,9 @@
 package co.mvpmatch.backendtask1
 
 import co.mvpmatch.backendtask1.config.ApplicationProperties
+import co.mvpmatch.backendtask1.config.security.JWTConfigurer
 import co.mvpmatch.backendtask1.config.security.TokenProvider
+import co.mvpmatch.backendtask1.repository.UserRepository
 import co.mvpmatch.backendtask1.web.api.model.LoginResponseDTO
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service
 class AuthenticationService(
     private val authenticationProvider: AuthenticationProvider,
     private val tokenProvider: TokenProvider,
-    private val prop: ApplicationProperties
+    private val prop: ApplicationProperties,
 ) {
     fun authenticate(credentials: UsernamePasswordAuthenticationToken): LoginResponseDTO {
         val authentication: Authentication = authenticationProvider.authenticate(credentials)
@@ -25,4 +27,8 @@ class AuthenticationService(
 
         }
     }
+
+
+
+
 }

@@ -20,7 +20,7 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @Configuration
-open class SecurityConfig(
+class SecurityConfig(
     private val tokenProvider: TokenProvider,
     private val userDetailsService: UserDetailsService
 ) {

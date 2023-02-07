@@ -7,6 +7,7 @@ import co.mvpmatch.backendtask1.web.api.model.RolesEnum
 import co.mvpmatch.backendtask1.web.api.model.UserDTO
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
+import org.mapstruct.Mappings
 import org.mapstruct.Named
 
 @Mapper(componentModel = "spring", uses = [])
@@ -15,7 +16,14 @@ abstract class UserMapper {
     abstract fun toDTO(entity: User): UserDTO
     abstract fun toDTO(entities: List<User>): List<UserDTO>
 
-    @Mapping(source = "roles", target = "authorities", qualifiedByName = ["rolesToAuth"])
+    @Mappings(
+        Mapping(source = "roles", target = "authorities", qualifiedByName = ["rolesToAuth"]),
+
+        // these fields are not present on dto.
+        // we set them to empty, to prevent null pointer exception
+        Mapping(target = "jwtSalt", expression = "java(\"\")"),
+        Mapping(target = "passwordHash", expression = "java(\"\")")
+    )
     abstract fun toEntity(dto: RegistrationDTO): User
 
     @Named("authToRoles")
@@ -25,6 +33,6 @@ abstract class UserMapper {
 
     @Named("rolesToAuth")
     fun rolesToAuth(roles: List<RolesEnum>): Set<Authority> {
-        return roles.map { Authority(it.name.uppercase()) }.toSet()
+        return roles.map { Authority(it.value.uppercase()) }.toSet()
     }
 }
