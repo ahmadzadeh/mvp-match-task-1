@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
 import java.io.Serializable
 import javax.persistence.*
+import javax.validation.constraints.Min
 
 @Entity
 @Table(name = "users")
@@ -28,6 +29,10 @@ class User(
 
     @Column(name = "lang_key", length = 10)
     var langKey: String? = null,
+
+    @get: Min(value = 0)
+    @Column(nullable = false)
+    var credit: Int,
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)

@@ -7,3 +7,4 @@ const val AUTHORITIES_KEY = "auth"
 const val AUTHORIZATION_HEADER = "Authorization"
 const val ANONYMOUS_USER = "anonymoususer"
 const val CACHE_USER_SALT = "cache_userSalt"
+val AVAILABLE_COINS_TO_CHANGE = arrayOf(5, 10, 20, 50, 100)

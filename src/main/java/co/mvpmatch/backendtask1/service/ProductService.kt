@@ -1,8 +1,6 @@
 package co.mvpmatch.backendtask1.service
 
-import co.mvpmatch.backendtask1.config.ResourceAlreadyExistsException
-import co.mvpmatch.backendtask1.config.ResourceNotFoundException
-import co.mvpmatch.backendtask1.config.UserNotAllowedException
+import co.mvpmatch.backendtask1.config.*
 import co.mvpmatch.backendtask1.domain.Product
 import co.mvpmatch.backendtask1.mapper.ProductMapper
 import co.mvpmatch.backendtask1.repository.ProductRepository
@@ -26,6 +24,14 @@ class ProductService(
     @Throws(ResourceNotFoundException::class)
     fun getProductByName(productName: String): ProductDTO {
         return productMapper.toDTO(getProductEntityByName(productName))
+    }
+
+    @Throws(ResourceNotFoundException::class)
+    fun getProductById(productId: Long): ProductDTO {
+        return productMapper.toDTO(
+            productRepository.findById(productId).orElseThrow { ResourceNotFoundException() }
+
+        )
     }
 
     @Throws(ResourceAlreadyExistsException::class)
@@ -65,6 +71,15 @@ class ProductService(
     fun deleteProduct(editorUserName: String, productName: String) {
         val product = getProductForModification(productName, editorUserName)
         productRepository.delete(product)
+    }
+
+    @Transactional
+    @Throws(InsufficientProductAmount::class, ResourceNotFoundException::class)
+    fun decreaseAmount(productId: Long, decreaseBy: Int) {
+        val product = productRepository.findById(productId).orElseThrow { ResourceNotFoundException() }
+        if (product.amountAvailable - decreaseBy < 0) throw  InsufficientProductAmount(productId)
+        product.amountAvailable -= decreaseBy
+        productRepository.save(product)
     }
 
     @Throws(ResourceNotFoundException::class)

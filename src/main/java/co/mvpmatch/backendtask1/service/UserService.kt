@@ -1,5 +1,6 @@
 package co.mvpmatch.backendtask1.service
 
+import co.mvpmatch.backendtask1.config.InsufficientUserBalanceException
 import co.mvpmatch.backendtask1.config.ResourceAlreadyExistsException
 import co.mvpmatch.backendtask1.config.ResourceNotFoundException
 import co.mvpmatch.backendtask1.domain.User
@@ -66,6 +67,23 @@ class UserService(
     fun getByUserName(username: String): User {
         return userRepository.findOneByUsernameIgnoreCase(username)
             .orElseThrow { ResourceNotFoundException() }
+    }
+
+    @Transactional
+    @Throws(ResourceNotFoundException::class, InsufficientUserBalanceException::class)
+    fun decreaseCredit(username: String, decreaseBy: Int) {
+        val user = getByUserName(username)
+        if (user.credit - decreaseBy < 0) throw InsufficientUserBalanceException()
+        user.credit -= decreaseBy
+        userRepository.save(user)
+    }
+
+    @Transactional
+    @Throws(ResourceNotFoundException::class)
+    fun resetCredit(username: String, decreaseBy: Int) {
+        val user = getByUserName(username)
+        user.credit = 0
+        userRepository.save(user)
     }
 
     private fun preventDuplicatedUserName(usernameToCheck: String) {

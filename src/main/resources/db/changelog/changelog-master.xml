@@ -8,4 +8,5 @@
     <include file="add-users-and-auth.xml" relativeToChangelogFile="true"/>
     <include file="init-auth.xml" relativeToChangelogFile="true"/>
     <include file="products.xml" relativeToChangelogFile="true"/>
+    <include file="buy_histories.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
