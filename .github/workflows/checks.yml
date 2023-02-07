@@ -1,7 +1,7 @@
 name: Checks
 on:
   #triggers on push or pull request events for main/develop branch
-  pull_requests:
+  pull_request:
     branches: [ main,develop ]
 
   #Possibility to run this action manually
