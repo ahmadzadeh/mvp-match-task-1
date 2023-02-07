@@ -16,16 +16,28 @@ services:
     networks:
       - default-net
 
-  mvp-match-task1:
+  redis:
+    image: redis:latest
+    ports:
+      - "127.0.0.1:6379:6379"
+    networks:
+      - default-net
+
+  vending-machine:
     depends_on:
       mysql:
         condition: service_healthy
+      redis:
+        condition: service_started
     image: mvp-match-task1:latest
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mvp_match_task1?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_CACHE_TYPE=redis
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
     ports:
       - "127.0.0.1:8080:8080"
     networks:
