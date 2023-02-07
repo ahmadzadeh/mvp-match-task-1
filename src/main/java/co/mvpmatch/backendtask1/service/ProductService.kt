@@ -35,9 +35,13 @@ class ProductService(
         payload: ProductModifyPayload
     ) {
         if (productRepository.existsByProductName(payload.productName)) throw ResourceAlreadyExistsException()
-        val seller = userService.getByUserName(sellerUserName)
-        val entity = productMapper.toEntity(payload)
-        entity.seller = seller
+        val entity = Product(
+            seller = userService.getByUserName(sellerUserName),
+            productName = payload.productName,
+            amountAvailable = payload.amountAvailable,
+            cost = payload.cost
+        )
+
         productRepository.save(entity)
     }
 

@@ -7,7 +7,6 @@ import org.mapstruct.Mapper
 
 @Mapper(componentModel = "spring", uses = [])
 abstract class ProductMapper {
-    abstract fun toEntity(dto: ProductModifyPayload): Product
     abstract fun toDTO(entity: Product): ProductDTO
     abstract fun toDTO(entities: List<Product>): List<ProductDTO>
 }
