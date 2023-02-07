@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 class UserSaltProvider(
     private val userRepository: UserRepository
 ) : SaltProvider {
-    @Cacheable(cacheNames = [CACHE_USER_SALT], key = "#userLogin")
+    @Cacheable(cacheNames = [CACHE_USER_SALT], key = "#principal", unless = "#result == null")
     override fun getSalt(principal: String): String? {
         return userRepository.findOneByUsernameIgnoreCase(principal)
             .orElse(null)?.jwtSalt
