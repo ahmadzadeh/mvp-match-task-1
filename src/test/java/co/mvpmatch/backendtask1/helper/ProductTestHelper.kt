@@ -6,12 +6,14 @@ import co.mvpmatch.backendtask1.web.api.model.ProductModifyPayload
 import org.junit.jupiter.api.Assertions
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.fail
+import org.hamcrest.Matchers.`is`
 
 @Component
 class ProductTestHelper {
@@ -44,7 +46,23 @@ class ProductTestHelper {
         }
     }
 
-    fun testAndGetProduct(mockMvc: MockMvc, userToken: String): ProductDTO? {
+    fun getProduct(mockMvc: MockMvc, userToken: String) {
+        try {
+            Assertions.assertNotNull(mockMvc)
+            mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/product/{productName}", testProductName)
+                    .header("Authorization", "Bearer $userToken")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+            )
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(jsonPath("$.productName", `is`(testProductName)))
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+        } catch (e: Exception) {
+            GeneralHelper.throwBestException(e)
+        }
+    }
+
+    fun getProductDTO(mockMvc: MockMvc, userToken: String): ProductDTO? {
         try {
             Assertions.assertNotNull(mockMvc)
             val result = mockMvc.perform(
@@ -63,7 +81,7 @@ class ProductTestHelper {
         } catch (e: Exception) {
             GeneralHelper.throwBestException(e)
         }
-        fail("testAndGetProduct returned null")
+        return null
     }
 
     fun updateProduct(mockMvc: MockMvc, userToken: String) {

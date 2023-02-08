@@ -33,32 +33,36 @@ class ContextHelper {
     @Autowired
     private lateinit var authenticationService: AuthenticationService
 
-    fun getAccessToken(user: UserEntity): String {
+    fun getAccessTokenWithDefaultPassword(user: UserEntity): String {
+        return getAccessToken(user.username, TEST_PASSWORD)
+    }
+
+    fun getAccessToken(username: String, rawPassword: String): String {
         val payload = UsernamePasswordAuthenticationToken(
-            user.username,
-            TEST_PASSWORD
+            username,
+            rawPassword
         )
         return authenticationService.authenticate(payload).token
     }
 
     fun getMockAdminToken(): String {
-        return getAccessToken(userHelper.getTestAdminUser())
+        return getAccessTokenWithDefaultPassword(userHelper.getTestAdminUser())
     }
 
     fun getMockBuyer1Token(): String {
-        return getAccessToken(userHelper.getTestBuyer1())
+        return getAccessTokenWithDefaultPassword(userHelper.getTestBuyer1())
     }
 
     fun getMockSeller1Token(): String {
-        return getAccessToken(userHelper.getTestSeller1())
+        return getAccessTokenWithDefaultPassword(userHelper.getTestSeller1())
     }
 
     fun getMockBuyer2Token(): String {
-        return getAccessToken(userHelper.getTestBuyer2())
+        return getAccessTokenWithDefaultPassword(userHelper.getTestBuyer2())
     }
 
     fun getMockSeller2Token(): String {
-        return getAccessToken(userHelper.getTestSeller2())
+        return getAccessTokenWithDefaultPassword(userHelper.getTestSeller2())
     }
 
     @Transactional

@@ -50,7 +50,7 @@ class BuyApiIntTest {
         productHelper.createProduct(productMockMvc!!, sellerToken)
 
         val buyerToken = contextHelper.getMockBuyer1Token()
-        val product = productHelper.testAndGetProduct(productMockMvc!!, buyerToken)
+        val product = productHelper.getProductDTO(productMockMvc!!, buyerToken)
             ?: fail("Unable to fetch product")
 
         //We add 200 Cents credit and buy test product with a cost of 165 cents
