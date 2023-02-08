@@ -12,9 +12,9 @@ class CoinExchangeTest {
 
     @Test
     fun `coin exchange algorithm works`() {
-        val credit = 165
+        val deposit = 165
         val expectedCoins = setOf(100, 50, 10, 5)
-        val coins = coinExchangeService.exchangeCoins(credit).toSet()
+        val coins = coinExchangeService.exchangeCoins(deposit).toSet()
         assertEquals(expectedCoins, coins)
     }
 }

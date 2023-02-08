@@ -16,7 +16,7 @@ import co.mvpmatch.backendtask1.web.api.model.DepositPayload.AmountsInCentEnum a
 
 @Component
 class BuyDepositHelper {
-    fun addCredit(buyMockMvc: MockMvc?, buyerToken: String, coin: AmountsInCentEnum) {
+    fun addDeposit(buyMockMvc: MockMvc?, buyerToken: String, coin: AmountsInCentEnum) {
         try {
             Assertions.assertNotNull(buyMockMvc)
 
@@ -36,7 +36,7 @@ class BuyDepositHelper {
         }
     }
 
-    fun resetCredit(buyMockMvc: MockMvc?, buyerToken: String) {
+    fun resetDeposit(buyMockMvc: MockMvc?, buyerToken: String) {
         try {
             Assertions.assertNotNull(buyMockMvc)
             buyMockMvc!!.perform(

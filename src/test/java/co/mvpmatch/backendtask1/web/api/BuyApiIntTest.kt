@@ -5,7 +5,6 @@ import co.mvpmatch.backendtask1.helper.BuyDepositHelper
 import co.mvpmatch.backendtask1.helper.ProductTestHelper
 import co.mvpmatch.backendtask1.helper.ProductTestHelper.Companion.testAmountToBuy
 import co.mvpmatch.backendtask1.helper.ProductTestHelper.Companion.testProductCost
-import co.mvpmatch.backendtask1.web.api.model.BuyResponseDTO
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -53,10 +52,10 @@ class BuyApiIntTest {
         val product = productHelper.getProductDTO(productMockMvc!!, buyerToken)
             ?: fail("Unable to fetch product")
 
-        //We add 200 Cents credit and buy test product with a cost of 165 cents
-        buyDepositHelper.addCredit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_100)
-        buyDepositHelper.addCredit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_50)
-        buyDepositHelper.addCredit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_50)
+        //We add 200 Cents deposit and buy test product with a cost of 165 cents
+        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_100)
+        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_50)
+        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_50)
 
         val buyResponse = buyDepositHelper.buyProduct(buyMockMvc, buyerToken, product)
         assertNotNull(buyResponse)
@@ -68,7 +67,7 @@ class BuyApiIntTest {
     fun `reset works correctly`() {
         Assertions.assertNotNull(productMockMvc)
         val buyerToken = contextHelper.getMockBuyer1Token()
-        buyDepositHelper.resetCredit(buyMockMvc, buyerToken)
+        buyDepositHelper.resetDeposit(buyMockMvc, buyerToken)
         //TODO: get user and check credit
     }
 
