@@ -8,7 +8,7 @@ import javax.validation.constraints.Min
 @Entity
 @Table(name = "products")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-data class Product(
+class Product(
     @Id
     @Column(name = "id", updatable = false, insertable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +28,4 @@ data class Product(
     @get: Min(value = 0L)
     @Column(nullable = false)
     var cost: Int
-)
+) : AbstractAuditingEntity()

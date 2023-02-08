@@ -19,8 +19,9 @@ abstract class BuyChain {
         return next
     }
 
-    fun execute(payload: BuyPayload) {
+    fun execute(buyerUserName: String, payload: BuyPayload) {
         process(BuyProcessPayload().apply {
+            buyerLogin = buyerUserName
             productId = payload.productId
             amount = payload.productAmount
         })

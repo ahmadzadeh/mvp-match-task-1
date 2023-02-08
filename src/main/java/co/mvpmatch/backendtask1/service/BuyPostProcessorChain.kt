@@ -21,8 +21,9 @@ class BuyPostProcessorChain(
         payload.changedCoins = if (buyer.credit > 0) exchangeService.exchangeCoins(buyer.credit) else mutableListOf()
         buyHistoryRepository.save(
             BuyHistory(
-                productId = payload.productId!!,
-                buyerId = buyer.id
+                productId = payload.productId!!.toLong(),
+                buyerId = buyer.id,
+                totalCost = payload.totalCost
             )
         )
 

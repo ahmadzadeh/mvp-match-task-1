@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
 import java.io.Serializable
 import javax.persistence.*
+import javax.validation.constraints.Min
 
 @Entity
 @Table(name = "buy_histories")
@@ -18,6 +19,10 @@ class BuyHistory(
     var productId: Long,
 
     @Column(name = "buyer_id", nullable = false)
-    var buyerId: Long
+    var buyerId: Long,
+
+    @get: Min(value = 0L)
+    @Column(nullable = false)
+    var totalCost: Int
 
 ) : AbstractAuditingEntity(), Serializable

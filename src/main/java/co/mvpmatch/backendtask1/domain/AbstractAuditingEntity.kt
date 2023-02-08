@@ -17,12 +17,7 @@ data class AbstractAuditingEntity(
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     @JsonIgnore
-    var createdAt: ZonedDateTime? = ZonedDateTime.now(),
-
-    @LastModifiedDate
-    @Column(name = "last_modified_at")
-    @JsonIgnore
-    var lastModifiedAt: ZonedDateTime? = ZonedDateTime.now()
+    var createdAt: ZonedDateTime? = ZonedDateTime.now()
 
 ) : Serializable {
 

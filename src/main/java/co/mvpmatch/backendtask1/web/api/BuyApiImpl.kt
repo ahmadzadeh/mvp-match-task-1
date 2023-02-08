@@ -20,7 +20,7 @@ class BuyApiImpl(
     private val userService: UserService
 ) : BuyApi, DepositApi, ResetApi {
     override fun _buy(buyPayload: BuyPayload): ResponseEntity<BuyResponseDTO> {
-        return ResponseEntity.ok(buyService.buy(buyPayload))
+        return ResponseEntity.ok(buyService.buy(getCurrentUserName(), buyPayload))
     }
 
     @Secured(ROLE_BUYER)

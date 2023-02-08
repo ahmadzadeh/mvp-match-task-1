@@ -308,7 +308,7 @@ components:
       properties:
         amountsInCent:
           type: integer
-          enum: [ 5, 10, 20, 50 and 100 ]
+          enum: [ 5, 10, 20, 50 , 100 ]
 
     BuyPayload:
       type: object
@@ -324,6 +324,7 @@ components:
       properties:
         productId:
           type: integer
+          format: int64
         totalCost:
           type: integer
         changedCoins:
