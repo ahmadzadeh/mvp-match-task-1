@@ -43,7 +43,7 @@ class ExceptionTranslator {
         return ResponseEntity("Product is not available for the requested amount", HttpStatus.NOT_ACCEPTABLE)
     }
 
-    @ExceptionHandler(UnauthorizedException::class)
+    @ExceptionHandler(UnableToChangeCoinsException::class)
     fun handleUnableToChangeCoinsException(
         ex: UnableToChangeCoinsException,
         request: WebRequest

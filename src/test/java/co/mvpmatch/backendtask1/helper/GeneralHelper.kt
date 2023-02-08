@@ -5,10 +5,12 @@ import co.mvpmatch.backendtask1.config.ResourceNotFoundException
 import co.mvpmatch.backendtask1.config.UnauthorizedException
 import co.mvpmatch.backendtask1.config.UserNotAllowedException
 import co.mvpmatch.backendtask1.web.api.model.ProductModifyPayload
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectWriter
 import com.fasterxml.jackson.databind.SerializationFeature
 import org.springframework.security.access.AccessDeniedException
+import kotlin.reflect.typeOf
 
 class GeneralHelper {
     companion object {
@@ -23,11 +25,16 @@ class GeneralHelper {
             throw e
         }
 
-        fun serializeJson(payload: ProductModifyPayload): String {
+        fun serializeJson(payload: Any): String {
             val mapper = ObjectMapper()
             mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false)
             val ow: ObjectWriter = mapper.writer().withDefaultPrettyPrinter()
             return ow.writeValueAsString(payload)
+        }
+
+        inline fun <reified T> deserializeJson(payload: String): T {
+            val mapper = ObjectMapper()
+            return mapper.reader().forType(T::class.java).readValue(payload)
         }
     }
 }

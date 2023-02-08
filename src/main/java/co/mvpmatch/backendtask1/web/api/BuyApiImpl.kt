@@ -25,7 +25,7 @@ class BuyApiImpl(
 
     @Secured(ROLE_BUYER)
     override fun _deposit(depositPayload: DepositPayload): ResponseEntity<Void> {
-        userService.updateCredit(getCurrentUserName(), depositPayload.amountsInCent)
+        userService.updateCredit(getCurrentUserName(), depositPayload.amountsInCent.value)
         return ResponseEntity.ok().build()
     }
 

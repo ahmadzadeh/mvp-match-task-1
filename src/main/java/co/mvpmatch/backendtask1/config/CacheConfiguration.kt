@@ -13,7 +13,6 @@ import java.time.Duration
 @EnableCaching
 class CacheConfiguration(
     private val prop: ApplicationProperties
-
 ) {
     @Bean
     fun redisCacheManagerBuilderCustomizer(): RedisCacheManagerBuilderCustomizer? {

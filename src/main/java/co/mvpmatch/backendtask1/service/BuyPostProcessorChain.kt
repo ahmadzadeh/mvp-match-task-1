@@ -18,7 +18,7 @@ class BuyPostProcessorChain(
         checkNotNull(payload.buyerLogin)
 
         val buyer = userService.getUserByUserName(payload.buyerLogin!!) // fetch updated credit from DB
-        payload.changeCoins = if (buyer.credit > 0) exchangeService.exchangeCoins(buyer.credit) else mutableListOf()
+        payload.changedCoins = if (buyer.credit > 0) exchangeService.exchangeCoins(buyer.credit) else mutableListOf()
         buyHistoryRepository.save(
             BuyHistory(
                 productId = payload.productId!!,

@@ -200,7 +200,7 @@ components:
             $ref: '#/components/schemas/LoginResponseDTO'
 
     BuyResponse:
-      description:  Total spent money, product details, and coin changes.
+      description: Total spent money, product details, and coin changes.
       content:
         application/json:
           schema:
@@ -308,8 +308,7 @@ components:
       properties:
         amountsInCent:
           type: integer
-          minimum: 5
-          multipleOf: 5
+          enum: [ 5, 10, 20, 50 and 100 ]
 
     BuyPayload:
       type: object
