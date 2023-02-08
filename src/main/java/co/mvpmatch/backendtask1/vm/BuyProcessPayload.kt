@@ -7,5 +7,6 @@ class BuyProcessPayload {
     var buyerLogin: String? = null
     var productId: Long? = null
     var amount: Int = 0
-    var changeCoins: MutableList<Int> = mutableListOf()
+    var totalCost: Int = 0
+    var changedCoins: MutableList<Int> = mutableListOf()
 }

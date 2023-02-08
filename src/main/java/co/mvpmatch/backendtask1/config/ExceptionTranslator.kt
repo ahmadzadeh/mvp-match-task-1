@@ -61,5 +61,8 @@ class ExceptionTranslator {
         return ResponseEntity("User is not activated ", HttpStatus.FORBIDDEN)
     }
 
-
+    @ExceptionHandler(UnexpectedException::class)
+    fun handleUnexpectedException(ex: UnexpectedException, request: WebRequest): ResponseEntity<String> {
+        return ResponseEntity("Unexpected Exception happened ", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
 }

@@ -16,8 +16,8 @@ class BuyProcessorChain(
         checkNotNull(payload.product)
         checkNotNull(payload.buyerLogin)
 
-        val totalCost = payload.amount * payload.product!!.cost!!
-        userService.decreaseCredit(payload.buyerLogin!!, totalCost)
+        payload.totalCost = payload.amount * payload.product!!.cost!!
+        userService.updateCredit(payload.buyerLogin!!, -payload.totalCost)
         productService.decreaseAmount(payload.product!!.id, payload.amount)
 
         nextStep(payload)

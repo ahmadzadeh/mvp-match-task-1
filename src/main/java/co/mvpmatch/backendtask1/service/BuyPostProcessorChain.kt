@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 
 @Component
-@Qualifier("BuyProcessorChain")
+@Qualifier("BuyPostProcessorChain")
 class BuyPostProcessorChain(
     private val userService: UserService,
     private val exchangeService: CoinExchangeService,

@@ -291,7 +291,8 @@ components:
           minimum: 0
         cost:
           type: integer
-          minimum: 0
+          minimum: 5
+          multipleOf: 5
 
     ProductDTO:
       type: object
@@ -307,12 +308,15 @@ components:
       properties:
         amountsInCent:
           type: integer
+          minimum: 5
+          multipleOf: 5
 
     BuyPayload:
       type: object
       properties:
         productId:
           type: integer
+          format: int64
         productAmount:
           type: integer
 
@@ -321,7 +325,9 @@ components:
       properties:
         productId:
           type: integer
-        changeCoins:
+        totalCost:
+          type: integer
+        changedCoins:
           type: array
           items:
             type: integer

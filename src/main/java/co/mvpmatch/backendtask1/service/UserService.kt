@@ -71,16 +71,16 @@ class UserService(
 
     @Transactional
     @Throws(ResourceNotFoundException::class, InsufficientUserBalanceException::class)
-    fun decreaseCredit(username: String, decreaseBy: Int) {
+    fun updateCredit(username: String, updateAmount: Int) {
         val user = getByUserName(username)
-        if (user.credit - decreaseBy < 0) throw InsufficientUserBalanceException()
-        user.credit -= decreaseBy
+        if (user.credit + updateAmount < 0) throw InsufficientUserBalanceException()
+        user.credit += updateAmount
         userRepository.save(user)
     }
 
     @Transactional
     @Throws(ResourceNotFoundException::class)
-    fun resetCredit(username: String, decreaseBy: Int) {
+    fun resetCredit(username: String) {
         val user = getByUserName(username)
         user.credit = 0
         userRepository.save(user)
