@@ -32,7 +32,7 @@ class User(
 
     @get: Min(value = 0)
     @Column(nullable = false)
-    var credit: Int,
+    var deposit: Int,
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)

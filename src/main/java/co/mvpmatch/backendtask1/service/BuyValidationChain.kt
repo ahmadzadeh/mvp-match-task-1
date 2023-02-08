@@ -20,7 +20,7 @@ class BuyValidationChain(
         payload.product = productService.getProductById(productId)
 
         //if product or buyer are null, we won't reach here
-        if (payload.product!!.cost * payload.amount > buyer.credit)
+        if (payload.product!!.cost * payload.amount > buyer.deposit)
             throw InsufficientUserBalanceException()
 
         if (payload.product!!.amountAvailable < payload.amount)

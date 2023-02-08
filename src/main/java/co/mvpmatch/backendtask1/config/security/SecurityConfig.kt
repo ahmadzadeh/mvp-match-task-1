@@ -43,6 +43,7 @@ class SecurityConfig(
             .and()
             .authorizeRequests()
             .antMatchers("/management/info").permitAll() //to retrieve version info via web-apps,...
+            .antMatchers("/swagger-ui/index.html").permitAll()
             .antMatchers("/management/**").hasAuthority(ROLE_ADMIN)
             .antMatchers("/api/**").permitAll()
             .antMatchers("/api/login").permitAll()

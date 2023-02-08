@@ -27,7 +27,7 @@ class UserHelper {
         const val TEST_PASSWORD = "Pa55w0rd"
         const val TEST_JWT_SALT = "jwtSalt"
         const val TEST_LANG_KEY = "en"
-        const val TEST_CREDIT = 0
+        const val TEST_DEPOSIT = 0
     }
 
     fun getTestAdminUser(): User {
@@ -71,7 +71,7 @@ class UserHelper {
                 activated = true,
                 authorities = authorities.toMutableSet(),
                 langKey = TEST_LANG_KEY,
-                credit = TEST_CREDIT
+                deposit = TEST_DEPOSIT
             )
         )
     }

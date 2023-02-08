@@ -36,7 +36,7 @@ class ProductIntTest {
         Assertions.assertNotNull(mockMvc)
         val sellerToken = contextHelper.getMockSeller1Token()
         productHelper.createProduct(mockMvc!!, sellerToken)
-        productHelper.testAndGetProduct(mockMvc!!, sellerToken)
+        productHelper.getProduct(mockMvc!!, sellerToken)
         productHelper.updateProduct(mockMvc!!, sellerToken)
         productHelper.deleteProduct(mockMvc!!, sellerToken, testProductNameUpdated)
     }

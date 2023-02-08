@@ -27,7 +27,7 @@
             <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="credit" type="integer">
+            <column name="deposit" type="integer">
                 <constraints nullable="false"/>
             </column>
         </createTable>
