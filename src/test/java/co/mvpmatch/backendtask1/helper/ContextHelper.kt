@@ -2,6 +2,7 @@ package co.mvpmatch.backendtask1.helper
 
 import co.mvpmatch.backendtask1.AuthenticationService
 import co.mvpmatch.backendtask1.helper.UserHelper.Companion.TEST_PASSWORD
+import co.mvpmatch.backendtask1.repository.BuyHistoryRepository
 import co.mvpmatch.backendtask1.repository.ProductRepository
 import org.junit.BeforeClass
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,6 +21,9 @@ class ContextHelper {
 
     @Autowired
     private lateinit var productRepository: ProductRepository
+
+    @Autowired
+    private lateinit var buyHistoryRepository: BuyHistoryRepository
 
     @BeforeClass
     fun init() {
@@ -59,6 +63,7 @@ class ContextHelper {
 
     @Transactional
     fun clearData() {
+        buyHistoryRepository.deleteAll()
         productRepository.deleteAll()
         userHelper.clearUsers()
     }
