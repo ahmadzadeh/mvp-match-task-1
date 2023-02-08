@@ -36,13 +36,32 @@ class BuyDepositHelper {
         }
     }
 
-    fun buyProduct(buyMockMvc: MockMvc?, buyerToken: String, product: ProductDTO): BuyResponseDTO {
+    fun resetCredit(buyMockMvc: MockMvc?, buyerToken: String) {
+        try {
+            Assertions.assertNotNull(buyMockMvc)
+            buyMockMvc!!.perform(
+                MockMvcRequestBuilders.get("/api/reset")
+                    .header("Authorization", "Bearer $buyerToken")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+            )
+                .andExpect(MockMvcResultMatchers.status().isOk)
+        } catch (e: Exception) {
+            GeneralHelper.throwBestException(e)
+        }
+    }
+
+    fun buyProduct(
+        buyMockMvc: MockMvc?,
+        buyerToken: String,
+        product: ProductDTO,
+        amount: Int = ProductTestHelper.testAmountToBuy
+    ): BuyResponseDTO {
         try {
             Assertions.assertNotNull(buyMockMvc)
 
             val payload = BuyPayload().apply {
                 productId = product.id
-                productAmount = ProductTestHelper.testAmountToBuy
+                productAmount = amount
             }
 
             val result = buyMockMvc!!.perform(

@@ -4,17 +4,15 @@ import co.mvpmatch.backendtask1.config.UserNotAllowedException
 import co.mvpmatch.backendtask1.helper.ContextHelper
 import co.mvpmatch.backendtask1.helper.ProductTestHelper
 import co.mvpmatch.backendtask1.helper.ProductTestHelper.Companion.testProductNameUpdated
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.*
 import org.springframework.security.access.AccessDeniedException
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProductIntTest {
     private var mockMvc: MockMvc? = null
 
