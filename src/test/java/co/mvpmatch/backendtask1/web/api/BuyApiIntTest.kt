@@ -1,23 +1,22 @@
 package co.mvpmatch.backendtask1.web.api
 
-import co.mvpmatch.backendtask1.helper.AuthenticationHelper
-import co.mvpmatch.backendtask1.helper.GeneralHelper
+import co.mvpmatch.backendtask1.helper.ContextHelper
+import co.mvpmatch.backendtask1.helper.BuyDepositHelper
 import co.mvpmatch.backendtask1.helper.ProductTestHelper
-import co.mvpmatch.backendtask1.web.api.model.BuyPayload
-import co.mvpmatch.backendtask1.web.api.model.ProductDTO
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.fail
+import co.mvpmatch.backendtask1.helper.ProductTestHelper.Companion.testAmountToBuy
+import co.mvpmatch.backendtask1.helper.ProductTestHelper.Companion.testProductCost
+import co.mvpmatch.backendtask1.web.api.model.BuyResponseDTO
+import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import co.mvpmatch.backendtask1.web.api.model.DepositPayload.AmountsInCentEnum as AmountsInCentEnum
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BuyApiIntTest {
     private var productMockMvc: MockMvc? = null
     private var buyMockMvc: MockMvc? = null
@@ -29,47 +28,48 @@ class BuyApiIntTest {
     protected lateinit var productController: ProductApiImpl
 
     @Autowired
+    private lateinit var buyDepositHelper: BuyDepositHelper
+
+    @Autowired
     private lateinit var buyApiImpl: BuyApiImpl
 
     @Autowired
-    private lateinit var authenticationHelper: AuthenticationHelper
+    private lateinit var contextHelper: ContextHelper
 
     @BeforeEach
     fun setup() {
         productMockMvc = MockMvcBuilders.standaloneSetup(productController).build()
         buyMockMvc = MockMvcBuilders.standaloneSetup(buyApiImpl).build()
-        authenticationHelper.clearUsers()
+        contextHelper.clearData()
     }
 
     @Test
-    fun `buy process works correctly`() {
+    fun `deposit and buy process works correctly`() {
         Assertions.assertNotNull(productMockMvc)
-        val sellerToken = authenticationHelper.getMockSeller1Token()
+        val sellerToken = contextHelper.getMockSeller1Token()
         productHelper.createProduct(productMockMvc!!, sellerToken)
 
-        val buyerToken = authenticationHelper.getMockBuyer1Token()
-        val product = productHelper.testAndGetProduct(productMockMvc!!, buyerToken) ?: fail("Unable to fetch product")
-        buyProduct(buyerToken, product)
+        val buyerToken = contextHelper.getMockBuyer1Token()
+        val product = productHelper.testAndGetProduct(productMockMvc!!, buyerToken)
+            ?: fail("Unable to fetch product")
+
+        //We add 200 Cents credit and buy test product with a cost of 165 cents
+        buyDepositHelper.addCredit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_100)
+        buyDepositHelper.addCredit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_50)
+        buyDepositHelper.addCredit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_50)
+
+        val buyResponse = buyDepositHelper.buyProduct(buyMockMvc, buyerToken, product)
+        assertNotNull(buyResponse)
+        assertEquals(buyResponse.totalCost, testAmountToBuy * testProductCost)
+        assertEquals(buyResponse.changedCoins.toSet(), setOf(20, 10, 5)) //order does not matter for set, sum must be 35
     }
 
-    private fun buyProduct(buyerToken: String, product: ProductDTO) {
-        try {
-            Assertions.assertNotNull(buyMockMvc)
-
-            val payload = BuyPayload().apply {
-                productId = product.id
-                productAmount = 4
-            }
-
-            buyMockMvc!!.perform(
-                MockMvcRequestBuilders.post("/api/buy")
-                    .header("Authorization", "Bearer $buyerToken")
-                    .content(GeneralHelper.serializeJson(payload))
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-            )
-                .andExpect(MockMvcResultMatchers.status().isOk)
-        } catch (e: Exception) {
-            GeneralHelper.throwBestException(e)
-        }
+    @Test
+    fun `reset works correctly`() {
+        Assertions.assertNotNull(productMockMvc)
+        val buyerToken = contextHelper.getMockBuyer1Token()
+        buyDepositHelper.resetCredit(buyMockMvc, buyerToken)
+        //TODO: get user and check credit
     }
+
 }

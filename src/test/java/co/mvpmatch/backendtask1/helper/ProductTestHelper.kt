@@ -19,7 +19,8 @@ class ProductTestHelper {
         val testProductName = "Mineral Water"
         val testProductNameUpdated = "Updated Mineral Water"
         val testAmountAvailable = 10
-        val testCost = 165
+        val testProductCost = 165
+        val testAmountToBuy = 1
     }
 
     fun createProduct(mockMvc: MockMvc, userToken: String) {
@@ -28,7 +29,7 @@ class ProductTestHelper {
             val payload = ProductModifyPayload().apply {
                 productName = testProductName
                 amountAvailable = testAmountAvailable
-                cost = testCost
+                cost = testProductCost
             }
 
             mockMvc.perform(

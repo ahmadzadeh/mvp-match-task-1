@@ -1,20 +1,18 @@
 package co.mvpmatch.backendtask1.web.api
 
 import co.mvpmatch.backendtask1.config.UserNotAllowedException
-import co.mvpmatch.backendtask1.helper.AuthenticationHelper
+import co.mvpmatch.backendtask1.helper.ContextHelper
 import co.mvpmatch.backendtask1.helper.ProductTestHelper
 import co.mvpmatch.backendtask1.helper.ProductTestHelper.Companion.testProductNameUpdated
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.*
 import org.springframework.security.access.AccessDeniedException
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProductIntTest {
     private var mockMvc: MockMvc? = null
 
@@ -25,18 +23,18 @@ class ProductIntTest {
     protected lateinit var productController: ProductApiImpl
 
     @Autowired
-    private lateinit var authenticationHelper: AuthenticationHelper
+    private lateinit var contextHelper: ContextHelper
 
     @BeforeEach
     fun setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(productController).build()
-        authenticationHelper.clearUsers()
+        contextHelper.clearData()
     }
 
     @Test
     fun `product crud is working`() {
         Assertions.assertNotNull(mockMvc)
-        val sellerToken = authenticationHelper.getMockSeller1Token()
+        val sellerToken = contextHelper.getMockSeller1Token()
         productHelper.createProduct(mockMvc!!, sellerToken)
         productHelper.testAndGetProduct(mockMvc!!, sellerToken)
         productHelper.updateProduct(mockMvc!!, sellerToken)
@@ -46,10 +44,10 @@ class ProductIntTest {
     @Test
     fun `only owner of product can modify it`() {
         Assertions.assertNotNull(mockMvc)
-        val seller1Token = authenticationHelper.getMockSeller1Token()
+        val seller1Token = contextHelper.getMockSeller1Token()
         productHelper.createProduct(mockMvc!!, seller1Token)
 
-        val seller2Token = authenticationHelper.getMockSeller2Token()
+        val seller2Token = contextHelper.getMockSeller2Token()
         assertThrows<UserNotAllowedException> {
             productHelper.updateProduct(mockMvc!!, seller2Token)
         }
@@ -58,7 +56,7 @@ class ProductIntTest {
     @Test
     fun `buyer is not allowed to add product`() {
         Assertions.assertNotNull(mockMvc)
-        val buyer1Token = authenticationHelper.getMockBuyer1Token()
+        val buyer1Token = contextHelper.getMockBuyer1Token()
         assertThrows<AccessDeniedException> {
             productHelper.createProduct(mockMvc!!, buyer1Token)
         }

@@ -18,6 +18,9 @@
             <column name="buyer_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="total_cost" type="integer">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>

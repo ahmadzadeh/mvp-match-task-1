@@ -32,7 +32,6 @@ fun extractPrincipal(authentication: Authentication?): String? {
 
 fun getCurrentBasicAuthCredentials(): UsernamePasswordAuthenticationToken? {
     val request = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).request
-        ?: return null
     val header = request.getHeader(AUTHORIZATION_HEADER) ?: return null
     val decodedHeader = String(
         Base64Utils.decodeFromString(StringUtils.removeIgnoreCase(header, "Basic ")),

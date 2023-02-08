@@ -1,9 +1,6 @@
 package co.mvpmatch.backendtask1.helper
 
-import co.mvpmatch.backendtask1.config.ResourceAlreadyExistsException
-import co.mvpmatch.backendtask1.config.ResourceNotFoundException
-import co.mvpmatch.backendtask1.config.UnauthorizedException
-import co.mvpmatch.backendtask1.config.UserNotAllowedException
+import co.mvpmatch.backendtask1.config.*
 import co.mvpmatch.backendtask1.web.api.model.ProductModifyPayload
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -21,6 +18,11 @@ class GeneralHelper {
                 is ResourceNotFoundException -> throw ResourceNotFoundException()
                 is UserNotAllowedException -> throw UserNotAllowedException()
                 is UnauthorizedException -> throw UnauthorizedException()
+                is InvalidParamException -> throw InvalidParamException(e.localizedMessage)
+                is InsufficientUserBalanceException -> throw InsufficientUserBalanceException()
+                is InsufficientProductAmount -> throw InsufficientProductAmount(0L)
+                is UnableToChangeCoinsException -> throw UnableToChangeCoinsException()
+                is UnexpectedException -> throw UnexpectedException()
             }
             throw e
         }

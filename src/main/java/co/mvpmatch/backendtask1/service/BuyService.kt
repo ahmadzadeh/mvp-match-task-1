@@ -11,20 +11,20 @@ import org.springframework.stereotype.Service
 @Service
 class BuyService(
     @Qualifier("BuyValidationChain") private val starterChain: BuyChain,
-    @Qualifier("BuyProcessorChain") private val secondChain: BuyChain,
-    @Qualifier("BuyPostProcessorChain") private val thirdChain: BuyChain,
+    @Qualifier("BuyProcessorChain") private val middleChain: BuyChain,
+    @Qualifier("BuyPostProcessorChain") private val finalChain: BuyChain,
     private val buyResponseMapper: BuyResponseMapper
 ) {
     val log = LoggerFactory.getLogger(javaClass)
 
     init {
-        starterChain.addStep(secondChain).addStep(thirdChain)
+        starterChain.addStep(middleChain).addStep(finalChain)
     }
 
-    fun buy(payload: BuyPayload): BuyResponseDTO {
+    fun buy(buyerUserName: String, payload: BuyPayload): BuyResponseDTO {
         log.info("Buy process started for ${payload.productId} with amount of ${payload.productAmount}")
-        starterChain.execute(payload)
-        val buyResult = starterChain.buyResult ?: throw UnexpectedException()
+        starterChain.execute(buyerUserName, payload)
+        val buyResult = finalChain.buyResult ?: throw UnexpectedException()
         log.info("Buy process finished for ${payload.productId} with totalCost of ${buyResult.totalCost}")
         return buyResponseMapper.toResponseDTO(buyResult)
     }
