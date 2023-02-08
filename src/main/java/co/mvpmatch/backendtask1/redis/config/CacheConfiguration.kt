@@ -1,6 +1,8 @@
-package co.mvpmatch.backendtask1.config
+package co.mvpmatch.backendtask1.redis.config
 
 
+import co.mvpmatch.backendtask1.config.ApplicationProperties
+import co.mvpmatch.backendtask1.config.CACHE_USER_SALT
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
