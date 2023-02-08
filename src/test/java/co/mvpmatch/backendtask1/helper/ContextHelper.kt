@@ -2,19 +2,24 @@ package co.mvpmatch.backendtask1.helper
 
 import co.mvpmatch.backendtask1.AuthenticationService
 import co.mvpmatch.backendtask1.helper.UserHelper.Companion.TEST_PASSWORD
+import co.mvpmatch.backendtask1.repository.ProductRepository
 import org.junit.BeforeClass
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import co.mvpmatch.backendtask1.domain.User as UserEntity
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class AuthenticationHelper {
+class ContextHelper {
     @Autowired
     private lateinit var userHelper: UserHelper
 
     @Autowired
     private lateinit var authorityHelper: AuthorityHelper
+
+    @Autowired
+    private lateinit var productRepository: ProductRepository
 
     @BeforeClass
     fun init() {
@@ -52,7 +57,9 @@ class AuthenticationHelper {
         return getAccessToken(userHelper.getTestSeller2())
     }
 
-    fun clearUsers() {
+    @Transactional
+    fun clearData() {
+        productRepository.deleteAll()
         userHelper.clearUsers()
     }
 }
