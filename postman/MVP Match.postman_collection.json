@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0b211a61-5680-41ed-8cf5-68204407798c",
+		"_postman_id": "b423823f-af70-4379-bca5-032b839166aa",
 		"name": "MVP Match",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "8136478"
@@ -13,8 +13,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"username\", jsonData.username);"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -43,8 +42,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"username\", jsonData.username);"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -245,7 +243,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productId\": \"{{productName}}\",\n    \"productAmount\": {{amountToBuy}}\n}",
+					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"productAmount\": {{amountToBuy}}\n}",
 					"options": {
 						"raw": {
 							"language": "json"
