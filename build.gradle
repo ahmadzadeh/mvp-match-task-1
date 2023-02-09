@@ -38,7 +38,8 @@ dependencies {
 	implementation "org.openapitools:jackson-databind-nullable:${swagger_jackson_version}"
 	implementation "io.swagger.core.v3:swagger-annotations:${swagger_version}"
 	implementation "org.springdoc:springdoc-openapi-ui:${swagger_ui_version}"
-	implementation "redis.clients:jedis"
+	implementation 'redis.clients:jedis'
+
 	implementation 'org.liquibase:liquibase-core'
 	implementation "com.zaxxer:HikariCP:${hikari_version}"
 	runtimeOnly 'com.h2database:h2'

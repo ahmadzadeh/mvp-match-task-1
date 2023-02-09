@@ -5,10 +5,9 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.stereotype.Service
 
-
 @Service
-class RedisPublisher(
-    private val redisTemplate: RedisTemplate<SessionEventPayload, Any>,
+class SessionEventPublisher(
+    private val redisTemplate: RedisTemplate<String, SessionEventPayload>,
     private val topic: ChannelTopic,
 ) {
     fun publish(payload: SessionEventPayload) {

@@ -19,7 +19,7 @@ class ProductApiImpl(
     private val productService: ProductService
 ) : ProductApi {
     @Secured(ROLE_SELLER, ROLE_ADMIN)
-    override fun _addProduct(productModifyPayload: ProductModifyPayload): ResponseEntity<Void> {
+    override fun _addProduct(productModifyPayload: ProductModifyPayload): ResponseEntity<ProductDTO> {
         productService.addProduct(getCurrentUserName(), productModifyPayload)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
@@ -42,7 +42,7 @@ class ProductApiImpl(
     override fun _updateProduct(
         productName: String,
         productModifyPayload: ProductModifyPayload
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<ProductDTO> {
         productService.updateProduct(getCurrentUserName(), productName, productModifyPayload)
         return ResponseEntity.ok().build()
     }

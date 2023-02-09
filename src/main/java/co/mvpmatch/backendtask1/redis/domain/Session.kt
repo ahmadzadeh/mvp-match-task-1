@@ -1,4 +1,4 @@
-package co.mvpmatch.backendtask1.redis.dao
+package co.mvpmatch.backendtask1.redis.domain
 
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.index.Indexed
@@ -9,10 +9,10 @@ import javax.persistence.Id
 @RedisHash("sessions")
 data class Session(
     @Id
-    private val id: String,
+    var id: String,
 
     @Indexed
-    private val username: String,
+    var username: String,
 
-    private val createdAt: ZonedDateTime
+    var createdAt: ZonedDateTime
 ) : Serializable

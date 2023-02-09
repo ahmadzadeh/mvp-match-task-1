@@ -39,7 +39,7 @@ class ProductService(
     fun addProduct(
         sellerUserName: String,
         payload: ProductModifyPayload
-    ) {
+    ): ProductDTO {
         if (productRepository.existsByProductName(payload.productName)) throw ResourceAlreadyExistsException()
         val entity = Product(
             seller = userService.getByUserName(sellerUserName),
@@ -48,7 +48,7 @@ class ProductService(
             cost = payload.cost
         )
 
-        productRepository.save(entity)
+        return productMapper.toDTO(productRepository.save(entity))
     }
 
     @Transactional
@@ -56,7 +56,7 @@ class ProductService(
         editorUserName: String,
         productName: String,
         payload: ProductModifyPayload
-    ) {
+    ): ProductDTO {
         val product = getProductForModification(productName, editorUserName)
 
         // only update non-null values in payload
@@ -64,7 +64,7 @@ class ProductService(
         payload.cost?.let { product.cost = it }
         payload.amountAvailable?.let { product.amountAvailable = it }
 
-        productRepository.save(product)
+        return productMapper.toDTO(productRepository.save(product))
     }
 
     @Transactional

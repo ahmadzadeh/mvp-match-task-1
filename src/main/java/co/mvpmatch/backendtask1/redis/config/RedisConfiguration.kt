@@ -1,29 +1,26 @@
 package co.mvpmatch.backendtask1.redis.config
 
-import co.mvpmatch.backendtask1.redis.service.RedisListener
-import co.mvpmatch.backendtask1.redis.service.RedisPublisher
+import co.mvpmatch.backendtask1.redis.service.SessionEventListener
 import co.mvpmatch.backendtask1.vm.SessionEventPayload
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.data.redis.listener.RedisMessageListenerContainer
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
+import org.springframework.data.redis.serializer.GenericToStringSerializer
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
+import org.springframework.data.redis.serializer.StringRedisSerializer
 
 
 @Configuration
-@ComponentScan("co.mvpmatch.backendtask1.redis")
-@EnableRedisRepositories(basePackages = ["co.mvpmatch.backendtask1.redis.dao"])
 class RedisConfiguration(
-    private val redisListener: RedisListener
+    private val sessionEventListener: SessionEventListener
 
 ) {
     @Bean
@@ -32,16 +29,26 @@ class RedisConfiguration(
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<SessionEventPayload, Any> {
-        val template = RedisTemplate<SessionEventPayload, Any>()
-        template.valueSerializer = GenericJackson2JsonRedisSerializer(getMapper())
+    fun redisTemplate(): RedisTemplate<String, Any> {
+        val template = RedisTemplate<String, Any>()
         template.setConnectionFactory(jedisConnectionFactory())
+        template.keySerializer = StringRedisSerializer()
+        template.valueSerializer = GenericToStringSerializer(Any::class.java)
+        return template
+    }
+
+    @Bean("SessionEventRedisTemplate")
+    fun sessionEventRedisTemplate(): RedisTemplate<String, SessionEventPayload> {
+        val template = RedisTemplate<String, SessionEventPayload>()
+        template.setConnectionFactory(jedisConnectionFactory())
+        template.keySerializer = StringRedisSerializer()
+        template.valueSerializer = GenericJackson2JsonRedisSerializer(getMapper())
         return template
     }
 
     @Bean
     fun messageListener(): MessageListenerAdapter {
-        val listener = MessageListenerAdapter(redisListener)
+        val listener = MessageListenerAdapter(sessionEventListener)
         val serializer = Jackson2JsonRedisSerializer(SessionEventPayload::class.java)
         serializer.setObjectMapper(getMapper())
         listener.setSerializer(serializer)
@@ -58,7 +65,7 @@ class RedisConfiguration(
 
     @Bean
     fun topic(): ChannelTopic {
-        return ChannelTopic("pubsub:queue")
+        return ChannelTopic("session")
     }
 
     private fun getMapper(): ObjectMapper {

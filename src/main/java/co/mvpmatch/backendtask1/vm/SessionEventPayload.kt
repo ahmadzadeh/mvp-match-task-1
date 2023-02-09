@@ -6,10 +6,14 @@ import java.io.Serializable
 import java.time.Instant
 
 data class SessionEventPayload(
+    @JsonProperty val actionType: LoginLogout,
     @JsonProperty val username: String,
-    @JsonProperty val loginAt: Instant,
+    @JsonProperty val timestamp: Instant,
 ) : Serializable {
     @JsonCreator
-    constructor() : this("", Instant.EPOCH)
+    constructor() : this(LoginLogout.UNDEFINED, "", Instant.EPOCH)
 }
 
+enum class LoginLogout {
+    LOGIN, LOGOUT, UNDEFINED
+}
