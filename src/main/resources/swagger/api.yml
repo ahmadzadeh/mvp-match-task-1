@@ -23,7 +23,7 @@ paths:
       responses:
         204:
           description: All sessions terminated
-  /user:
+  /user/all:
     get:
       operationId: getAllUsersByAdmin
       security:
@@ -31,6 +31,15 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/GetAllUsersResponse'
+
+  /user:
+    get:
+      operationId: getCurrentUserInfo
+      security:
+        - jwt: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/GetSingleUserResponse'
     post:
       operationId: registration
       tags:
@@ -221,6 +230,13 @@ components:
           schema:
             type: array
             items:
+              $ref: '#/components/schemas/UserDTO'
+
+    GetSingleUserResponse:
+      description: Get current user information
+      content:
+        application/json:
+          schema:
               $ref: '#/components/schemas/UserDTO'
 
     RegistrationResponse:

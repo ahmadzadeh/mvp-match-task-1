@@ -1,6 +1,10 @@
 package co.mvpmatch.backendtask1.web.api
 
 import co.mvpmatch.backendtask1.config.ROLE_ADMIN
+import co.mvpmatch.backendtask1.config.ROLE_BUYER
+import co.mvpmatch.backendtask1.config.ROLE_SELLER
+import co.mvpmatch.backendtask1.config.UnauthorizedException
+import co.mvpmatch.backendtask1.config.security.getCurrentUserLogin
 import co.mvpmatch.backendtask1.service.UserService
 import co.mvpmatch.backendtask1.web.api.model.BaseUserDTO
 import co.mvpmatch.backendtask1.web.api.model.RegistrationDTO
@@ -24,6 +28,15 @@ class UserApiImpl(
     @Secured(ROLE_ADMIN)
     override fun _getAllUsersByAdmin(): ResponseEntity<List<UserDTO>> {
         return ResponseEntity.ok(userService.findAll())
+    }
+
+    @Secured(ROLE_SELLER, ROLE_BUYER, ROLE_ADMIN)
+    override fun _getCurrentUserInfo(): ResponseEntity<UserDTO> {
+        return ResponseEntity.ok(
+            userService.getUserByUserName(
+                getCurrentUserLogin() ?: throw UnauthorizedException()
+            )
+        )
     }
 
     @Secured(ROLE_ADMIN)
