@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "0b211a61-5680-41ed-8cf5-68204407798c",
 		"name": "MVP Match",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "8136478"
 	},
 	"item": [
@@ -32,15 +32,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{url}}/user",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"user"
-					]
-				}
+				"url": "{{url}}/user"
 			},
 			"response": []
 		},
@@ -70,15 +62,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{url}}/user",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"user"
-					]
-				}
+				"url": "{{url}}/user"
 			},
 			"response": []
 		},
@@ -99,30 +83,14 @@
 			"request": {
 				"auth": {
 					"type": "basic",
-					"basic": [
-						{
-							"key": "username",
-							"value": "{{sellerUserName}}",
-							"type": "string"
-						},
-						{
-							"key": "password",
-							"value": "{{rawPassword}}",
-							"type": "string"
-						}
-					]
+					"basic": {
+						"username": "{{sellerUserName}}",
+						"password": "{{rawPassword}}"
+					}
 				},
 				"method": "POST",
 				"header": [],
-				"url": {
-					"raw": "{{url}}/login",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"login"
-					]
-				}
+				"url": "{{url}}/login"
 			},
 			"response": []
 		},
@@ -143,30 +111,14 @@
 			"request": {
 				"auth": {
 					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "{{rawPassword}}",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "{{buyerUserName}}",
-							"type": "string"
-						}
-					]
+					"basic": {
+						"password": "{{rawPassword}}",
+						"username": "{{buyerUserName}}"
+					}
 				},
 				"method": "POST",
 				"header": [],
-				"url": {
-					"raw": "{{url}}/login",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"login"
-					]
-				}
+				"url": "{{url}}/login"
 			},
 			"response": []
 		},
@@ -186,13 +138,9 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{buyerToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
 				},
 				"method": "POST",
 				"header": [],
@@ -205,15 +153,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{url}}/deposit",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"deposit"
-					]
-				}
+				"url": "{{url}}/deposit"
 			},
 			"response": []
 		},
@@ -222,25 +162,13 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{buyerToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{url}}/user",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"user"
-					]
-				}
+				"url": "{{url}}/user"
 			},
 			"response": []
 		},
@@ -249,25 +177,13 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{sellerToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{sellerToken}}"
+					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{url}}/user",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"user"
-					]
-				}
+				"url": "{{url}}/user"
 			},
 			"response": []
 		},
@@ -276,15 +192,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{url}}/product",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"product"
-					]
-				}
+				"url": "{{url}}/product"
 			},
 			"response": []
 		},
@@ -305,13 +213,9 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{sellerToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{sellerToken}}"
+					}
 				},
 				"method": "POST",
 				"header": [],
@@ -324,15 +228,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{url}}/product",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"product"
-					]
-				}
+				"url": "{{url}}/product"
 			},
 			"response": []
 		},
@@ -341,13 +237,9 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{buyerToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
 				},
 				"method": "POST",
 				"header": [],
@@ -360,15 +252,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{url}}/buy",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"buy"
-					]
-				}
+				"url": "{{url}}/buy"
 			},
 			"response": []
 		},
@@ -380,13 +264,9 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{buyerToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
 				},
 				"method": "GET",
 				"header": [],
@@ -399,15 +279,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{url}}/reset",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"reset"
-					]
-				}
+				"url": "{{url}}/reset"
 			},
 			"response": []
 		},
@@ -416,26 +288,13 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{sellerToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{sellerToken}}"
+					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{url}}/logout/all",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"logout",
-						"all"
-					]
-				}
+				"url": "{{url}}/logout/all"
 			},
 			"response": []
 		},
@@ -444,39 +303,22 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{buyerToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{url}}/logout/all",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"logout",
-						"all"
-					]
-				}
+				"url": "{{url}}/logout/all"
 			},
 			"response": []
 		}
 	],
 	"auth": {
 		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "{{token}}",
-				"type": "string"
-			}
-		]
+		"bearer": {
+			"token": "{{token}}"
+		}
 	},
 	"event": [
 		{
