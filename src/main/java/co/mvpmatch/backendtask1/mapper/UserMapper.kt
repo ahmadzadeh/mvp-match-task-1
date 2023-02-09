@@ -2,6 +2,7 @@ package co.mvpmatch.backendtask1.mapper
 
 import co.mvpmatch.backendtask1.domain.Authority
 import co.mvpmatch.backendtask1.domain.User
+import co.mvpmatch.backendtask1.web.api.model.BaseUserDTO
 import co.mvpmatch.backendtask1.web.api.model.RegistrationDTO
 import co.mvpmatch.backendtask1.web.api.model.RolesEnum
 import co.mvpmatch.backendtask1.web.api.model.UserDTO
@@ -14,7 +15,12 @@ import org.mapstruct.Named
 abstract class UserMapper {
     @Mapping(source = "authorities", target = "roles", qualifiedByName = ["authToRoles"])
     abstract fun toDTO(entity: User): UserDTO
+
+    @Mapping(source = "authorities", target = "roles", qualifiedByName = ["authToRoles"])
+    abstract fun toBaseDTO(entity: User): BaseUserDTO
+
     abstract fun toDTO(entities: List<User>): List<UserDTO>
+    abstract fun toBaseDTO(entity: List<User>): List<BaseUserDTO>
 
     @Mappings(
         Mapping(source = "roles", target = "authorities", qualifiedByName = ["rolesToAuth"]),

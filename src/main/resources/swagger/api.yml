@@ -15,7 +15,15 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/LoginResponse'
-  /user:
+
+  /logout/all:
+    get:
+      operationId: terminateAllSessions
+      description: This will terminarte all of user sessions, and invalidates all of tokens
+      responses:
+        204:
+          description: All sessions terminated
+  /user/all:
     get:
       operationId: getAllUsersByAdmin
       security:
@@ -23,6 +31,15 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/GetAllUsersResponse'
+
+  /user:
+    get:
+      operationId: getCurrentUserInfo
+      security:
+        - jwt: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/GetSingleUserResponse'
     post:
       operationId: registration
       tags:
@@ -36,7 +53,7 @@ paths:
               $ref: '#/components/schemas/RegistrationDTO'
       responses:
         201:
-          description: User created successfully.
+          $ref: '#/components/responses/RegistrationResponse'
 
   /user/{username}:
     put:
@@ -93,7 +110,7 @@ paths:
               $ref: '#/components/schemas/ProductModifyPayload'
       responses:
         201:
-          description: Product added successfully.
+          $ref: '#/components/responses/SingleProductsResponse'
 
   /product/{productName}:
     get:
@@ -127,7 +144,7 @@ paths:
               $ref: '#/components/schemas/ProductModifyPayload'
       responses:
         200:
-          description: Product updated successfully.
+          $ref: '#/components/responses/SingleProductsResponse'
 
     delete:
       operationId: deleteProduct
@@ -215,15 +232,29 @@ components:
             items:
               $ref: '#/components/schemas/UserDTO'
 
+    GetSingleUserResponse:
+      description: Get current user information
+      content:
+        application/json:
+          schema:
+              $ref: '#/components/schemas/UserDTO'
+
+    RegistrationResponse:
+      description: User created successfully.
+      content:
+        application/json:
+          schema:
+              $ref: '#/components/schemas/BaseUserDTO'
+
     SingleProductsResponse:
-      description: List of all products (paged)
+      description: Product information
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ProductDTO'
 
     AllProductsResponse:
-      description: List of all products (paged)
+      description: List of all products
       content:
         application/json:
           schema:
@@ -239,6 +270,20 @@ components:
         expiresIn:
           type: integer
           format: int64
+        previousSessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SessionDTO'
+
+    SessionDTO:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        createdAt:
+          type: string
+          format: 'date-time'
+
 
     RolesEnum:
       type: string
@@ -306,7 +351,7 @@ components:
     DepositPayload:
       type: object
       properties:
-        amountsInCent:
+        amountInCent:
           type: integer
           enum: [ 5, 10, 20, 50 , 100 ]
 

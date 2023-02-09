@@ -12,12 +12,12 @@ class ExceptionTranslator {
 
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleNotFound(ex: Exception, request: WebRequest): ResponseEntity<String> {
-        return ResponseEntity("Requested resource not found", HttpStatus.NOT_FOUND)
+        return ResponseEntity("Requested user/resource not found", HttpStatus.NOT_FOUND)
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException::class)
     fun handleAlreadyExists(ex: ResourceAlreadyExistsException, request: WebRequest): ResponseEntity<String> {
-        return ResponseEntity("Resource already exists ", HttpStatus.CONFLICT)
+        return ResponseEntity("User/Resource already exists ", HttpStatus.CONFLICT)
     }
 
     @ExceptionHandler(UserNotAllowedException::class)

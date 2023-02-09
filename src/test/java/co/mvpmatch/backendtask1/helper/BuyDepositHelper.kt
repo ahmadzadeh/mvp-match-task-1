@@ -12,16 +12,16 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import kotlin.test.assertNotNull
-import co.mvpmatch.backendtask1.web.api.model.DepositPayload.AmountsInCentEnum as AmountsInCentEnum
+import co.mvpmatch.backendtask1.web.api.model.DepositPayload.AmountInCentEnum as AmountInCentEnum
 
 @Component
 class BuyDepositHelper {
-    fun addDeposit(buyMockMvc: MockMvc?, buyerToken: String, coin: AmountsInCentEnum) {
+    fun addDeposit(buyMockMvc: MockMvc?, buyerToken: String, coin: AmountInCentEnum) {
         try {
             Assertions.assertNotNull(buyMockMvc)
 
             val payload = DepositPayload().apply {
-                amountsInCent = coin
+                amountInCent = coin
             }
 
             buyMockMvc!!.perform(

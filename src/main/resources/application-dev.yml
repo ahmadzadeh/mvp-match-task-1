@@ -14,3 +14,5 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
 
+  autoconfigure:
+    exclude=org.springframework.bootautoconfigure.data.redis.RedisAutoConfiguration

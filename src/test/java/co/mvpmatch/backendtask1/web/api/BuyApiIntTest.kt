@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import co.mvpmatch.backendtask1.web.api.model.DepositPayload.AmountsInCentEnum as AmountsInCentEnum
+import co.mvpmatch.backendtask1.web.api.model.DepositPayload.AmountInCentEnum as AmountInCentEnum
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -53,9 +53,9 @@ class BuyApiIntTest {
             ?: fail("Unable to fetch product")
 
         //We add 200 Cents deposit and buy test product with a cost of 165 cents
-        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_100)
-        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_50)
-        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountsInCentEnum.NUMBER_50)
+        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountInCentEnum.NUMBER_100)
+        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountInCentEnum.NUMBER_50)
+        buyDepositHelper.addDeposit(buyMockMvc, buyerToken, AmountInCentEnum.NUMBER_50)
 
         val buyResponse = buyDepositHelper.buyProduct(buyMockMvc, buyerToken, product)
         assertNotNull(buyResponse)

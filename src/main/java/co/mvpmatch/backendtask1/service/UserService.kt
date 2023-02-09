@@ -6,6 +6,7 @@ import co.mvpmatch.backendtask1.config.ResourceNotFoundException
 import co.mvpmatch.backendtask1.domain.User
 import co.mvpmatch.backendtask1.mapper.UserMapper
 import co.mvpmatch.backendtask1.repository.UserRepository
+import co.mvpmatch.backendtask1.web.api.model.BaseUserDTO
 import co.mvpmatch.backendtask1.web.api.model.RegistrationDTO
 import co.mvpmatch.backendtask1.web.api.model.UserDTO
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -32,15 +33,21 @@ class UserService(
     }
 
     @Transactional
+    fun saveUser(user: User) {
+        userRepository.save(user)
+
+    }
+
+    @Transactional
     @Throws(ResourceAlreadyExistsException::class)
-    fun register(registrationDTO: RegistrationDTO) {
+    fun register(registrationDTO: RegistrationDTO): BaseUserDTO {
         //TODO: Add more security when new user role is admin
         preventDuplicatedUserName(registrationDTO.username)
         val entity = userMapper.toEntity(registrationDTO)
         entity.passwordHash = passwordEncoder.encode(registrationDTO.password)
         entity.jwtSalt = UUID.randomUUID().toString()
         entity.activated = true
-        userRepository.save(entity)
+        return userMapper.toBaseDTO(userRepository.save(entity))
     }
 
     @Throws(ResourceAlreadyExistsException::class, ResourceNotFoundException::class)
