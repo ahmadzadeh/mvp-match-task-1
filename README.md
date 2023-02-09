@@ -27,11 +27,12 @@ Simply run this command on the root folder:  `./gradlew composeUp` (requires JDK
 
 [Postman Environment](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/postman/mvp_match_.postman_environment.json)
 
+[Deploy and Run API Screencast](https://github.com/ahmadzadeh/mvp-match-task-1/raw/main/assets/Screencast.mp4)
 
-[Deploy and Run API Screencast](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/assets/Screencast.mp4)
 
 
-Automated Testing (CI):
+
+### Automated Testing (CI):
 
 ![Checking Tests](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/assets/test-wait.png)
 
