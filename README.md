@@ -1,7 +1,28 @@
-# mvp-match-task-1
-Task #1 for mvp-Match
+# Vending Machine MVP
+
+###### ⚠️ This project is an MVP to demonstrate the coding style, tools as a coding challenge.
 
 
-###### ⚠️ This project is not completed yet
-`
-Deploy using docker-compose: ./gradlew compuseUp`
+### How to deploy in docker:
+
+Simply run this command on the root folder:  `./gradlew composeUp`
+
+### Tech Stack:
+- Spring Boot (Kotlin)
+- Gradle
+- Spring Security
+- Spring Data JPA
+- H2 DB (For Development)
+- MySQL (For Production)
+- OpenApi & Swagger code generator
+- Spring Web (Rest)
+- Redis (Prod Profile) for Cache and Realtime events
+- Github Action for automated testing (configured on pull_requests to main/develop and push to develop)
+- Junit (Unit tests & Integration tests)
+- Mapstruct
+- Liquibase (database migration)
+
+
+[Postman Collection](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/postman/vending_machine.postman_collection.json)
+
+More instructions and screenshots will be updated soon...
