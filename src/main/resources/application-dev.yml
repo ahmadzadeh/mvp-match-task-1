@@ -1,6 +1,6 @@
 spring:
   cache:
-    type: redis
+    type: simple
   liquibase:
     contexts: dev
   datasource:
@@ -13,3 +13,6 @@ spring:
       enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+
+  autoconfigure:
+    exclude=org.springframework.bootautoconfigure.data.redis.RedisAutoConfiguration
