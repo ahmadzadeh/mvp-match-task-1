@@ -1,13 +1,16 @@
 package co.mvpmatch.backendtask1.redis.config
 
+import co.mvpmatch.backendtask1.config.ApplicationProperties
 import co.mvpmatch.backendtask1.redis.service.SessionEventListener
 import co.mvpmatch.backendtask1.vm.SessionEventPayload
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.listener.ChannelTopic
@@ -17,17 +20,25 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.GenericToStringSerializer
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
+import redis.clients.jedis.JedisPoolConfig
 
 
 @Configuration
 @Profile("prod")
 class RedisConfiguration(
     private val sessionEventListener: SessionEventListener
-
 ) {
+    @Value("\${spring.redis.host}")
+    private lateinit var redisHost: String
+
+    @Value("\${spring.redis.port}")
+    private lateinit var redisPort: String
+
     @Bean
     fun jedisConnectionFactory(): JedisConnectionFactory {
-        return JedisConnectionFactory()
+        return JedisConnectionFactory(
+            RedisStandaloneConfiguration(redisHost, redisPort.toInt())
+        )
     }
 
     @Bean

@@ -8,7 +8,7 @@ jib {
         image = "eclipse-temurin:17.0.5_8-jre"
     }
     to {
-        image = "mvp-match-task1"
+        image = "vending-machine"
     }
     container {
         ports = ["8080"]
