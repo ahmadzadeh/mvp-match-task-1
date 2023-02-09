@@ -5,7 +5,7 @@
 
 ### How to deploy in docker:
 
-Simply run this command on the root folder:  `./gradlew composeUp`
+Simply run this command on the root folder:  `./gradlew composeUp` (requires JDK 17+)
 
 ### Tech Stack:
 - Spring Boot (Kotlin)
