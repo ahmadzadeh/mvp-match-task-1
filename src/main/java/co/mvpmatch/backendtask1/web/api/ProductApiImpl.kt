@@ -20,8 +20,12 @@ class ProductApiImpl(
 ) : ProductApi {
     @Secured(ROLE_SELLER, ROLE_ADMIN)
     override fun _addProduct(productModifyPayload: ProductModifyPayload): ResponseEntity<ProductDTO> {
-        productService.addProduct(getCurrentUserName(), productModifyPayload)
-        return ResponseEntity.status(HttpStatus.CREATED).build()
+        return ResponseEntity(
+            productService.addProduct(
+                getCurrentUserName(),
+                productModifyPayload
+            ), HttpStatus.CREATED
+        )
     }
 
     @Secured(ROLE_SELLER, ROLE_ADMIN)

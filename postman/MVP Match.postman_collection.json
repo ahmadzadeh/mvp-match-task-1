@@ -1,0 +1,341 @@
+{
+	"info": {
+		"_postman_id": "b423823f-af70-4379-bca5-032b839166aa",
+		"name": "MVP Match",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "8136478"
+	},
+	"item": [
+		{
+			"name": "Add Seller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"{{sellerFullName}}\",\n    \"username\": \"{{sellerUserName}}\",\n    \"password\": \"{{rawPassword}}\",\n    \"roles\": [\n        \"role_seller\"\n    ],\n    \"langKey\": \"en\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/user"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Buyer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"{{buyerFullName}}\",\n    \"username\": \"{{buyerUserName}}\",\n    \"password\": \"{{rawPassword}}\",\n    \"roles\": [\n        \"role_buyer\"\n    ],\n    \"langKey\": \"en\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login(Seller)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"sellerToken\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{sellerUserName}}",
+						"password": "{{rawPassword}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": "{{url}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Login(Buyer)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"buyerToken\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{rawPassword}}",
+						"username": "{{buyerUserName}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": "{{url}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Deposit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amountInCent\": {{amountToDeposit}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/deposit"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Buyer Info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{url}}/user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Seller Info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{sellerToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{url}}/user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{url}}/product"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"productId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{sellerToken}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productName\": \"{{productName}}\",\n    \"amountAvailable\": {{amountAvailable}},\n    \"cost\": {{productCost}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/product"
+			},
+			"response": []
+		},
+		{
+			"name": "Buy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"productAmount\": {{amountToBuy}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/buy"
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Deposit",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/reset"
+			},
+			"response": []
+		},
+		{
+			"name": "Logout (Seller)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{sellerToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{url}}/logout/all"
+			},
+			"response": []
+		},
+		{
+			"name": "Logout (Buyer)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{buyerToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{url}}/logout/all"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{token}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
