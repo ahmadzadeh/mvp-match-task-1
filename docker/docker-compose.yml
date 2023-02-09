@@ -10,7 +10,7 @@ services:
       - "127.0.0.1:3306:3306"
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-proot" ]
-      interval: 5s
+      interval: 30s
       timeout: 5s
       retries: 20
     networks:
@@ -20,6 +20,11 @@ services:
     image: redis:latest
     ports:
       - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 5s
+      retries: 20
     networks:
       - default-net
 
@@ -28,11 +33,11 @@ services:
       mysql:
         condition: service_healthy
       redis:
-        condition: service_started
-    image: mvp-match-task1:latest
+        condition: service_healthy
+    image: vending-machine:latest
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mvp_match_task1?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/vending_machine?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_CACHE_TYPE=redis
