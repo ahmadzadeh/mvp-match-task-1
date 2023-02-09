@@ -25,4 +25,11 @@ Simply run this command on the root folder:  `./gradlew composeUp` (requires JDK
 
 [Postman Collection](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/postman/vending_machine.postman_collection.json)
 
+
+Automated Testing (CI):
+
+![Checking Tests](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/assets/test-wait.png)
+
+![Checks Passed](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/assets/check-passed.png)
+
 More instructions and screenshots will be updated soon...
