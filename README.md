@@ -23,7 +23,12 @@ Simply run this command on the root folder:  `./gradlew composeUp` (requires JDK
 - Liquibase (database migration)
 
 
-[Postman Collection](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/postman/vending_machine.postman_collection.json)
+[Postman Collection](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/postman/mvp_match_postman_collection.json)
+
+[Postman Environment](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/postman/mvp_match_.postman_environment.json)
+
+
+[Deploy and Run API Screencast](https://github.com/ahmadzadeh/mvp-match-task-1/blob/main/assets/Screencast.mp4)
 
 
 Automated Testing (CI):
